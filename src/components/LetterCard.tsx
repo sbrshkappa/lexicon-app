@@ -7,7 +7,6 @@ import Animated, {
   withTiming,
   interpolate,
   useDerivedValue,
-  FadeIn,
 } from 'react-native-reanimated';
 import { Card } from '../game/types';
 import { colors, typography, radius, springs, cardSize, boardCardSize } from '../theme';
@@ -76,7 +75,6 @@ export const LetterCard: React.FC<LetterCardProps> = ({
 
   return (
     <Animated.View
-      entering={FadeIn.delay(enterDelay).duration(220)}
       style={[styles.container, { width: size.width, height: size.height }, animatedStyle]}
     >
       {/* Selection glow */}

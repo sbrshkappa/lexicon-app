@@ -4,6 +4,7 @@
 // Words are stored in a Set for O(1) lookup.
 
 const WORDS: readonly string[] = [
+  'A', 'I',
   'AA', 'AB', 'ABS', 'ACE', 'ACES', 'ACHE', 'ACHES', 'ACID',
   'ACIDS', 'ACME', 'ACNE', 'ACORN', 'ACT', 'ACTED', 'ACTING', 'ACTION',
   'ACTIVE', 'ACTOR', 'ACTS', 'ACUTE', 'ADD', 'ADDED', 'ADDING', 'ADDS',

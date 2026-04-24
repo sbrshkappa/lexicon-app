@@ -26,6 +26,7 @@ import { SetupScreen } from './screens/SetupScreen';
 import { GameScreen } from './screens/GameScreen';
 import { RoundEndScreen } from './screens/RoundEndScreen';
 import { GameEndScreen } from './screens/GameEndScreen';
+import { HowToPlayScreen } from './screens/HowToPlayScreen';
 import { ToastHost } from './components/ToastHost';
 import { colors, typography } from './theme';
 
@@ -73,6 +74,7 @@ const App: React.FC = () => {
           {screen === 'game' && <GameScreen />}
           {screen === 'round-end' && <RoundEndScreen />}
           {screen === 'game-end' && <GameEndScreen />}
+          {screen === 'how-to-play' && <HowToPlayScreen />}
           <ToastHost />
           <StatusBar style="dark" />
         </View>

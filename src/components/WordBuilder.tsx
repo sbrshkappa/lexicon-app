@@ -73,6 +73,8 @@ export const WordBuilder: React.FC<WordBuilderProps> = ({
     }
   })();
 
+  const isIdle = mode.kind === 'idle' && stagedCards.length === 0;
+
   return (
     <View style={styles.container}>
       <View style={styles.headerRow}>
@@ -84,90 +86,94 @@ export const WordBuilder: React.FC<WordBuilderProps> = ({
         </Text>
       </View>
 
-      <View style={styles.stageRow}>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.stageContent}
-        >
-          {/* If extending after, show target word on the left */}
-          {mode.kind === 'extend-after' && targetWord && (
-            <View style={styles.targetBlock}>
-              {targetWord.cards.map((c) => (
-                <View key={`t-${c.id}`} style={styles.ghostSlot}>
-                  <LetterCard card={c} variant="board" />
+      {!isIdle && (
+        <>
+          <View style={styles.stageRow}>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.stageContent}
+            >
+              {/* If extending after, show target word on the left */}
+              {mode.kind === 'extend-after' && targetWord && (
+                <View style={styles.targetBlock}>
+                  {targetWord.cards.map((c) => (
+                    <View key={`t-${c.id}`} style={styles.ghostSlot}>
+                      <LetterCard card={c} variant="board" />
+                    </View>
+                  ))}
+                  <View style={styles.divider} />
                 </View>
-              ))}
-              <View style={styles.divider} />
-            </View>
-          )}
+              )}
 
-          {stagedCards.length === 0 ? (
-            <View style={styles.placeholder}>
-              <Text style={[typography.body, { color: colors.inkGhost }]}>—</Text>
-            </View>
-          ) : (
-            stagedCards.map((c, i) => (
-              <Animated.View
-                key={c.id}
-                entering={FadeIn.duration(180)}
-                exiting={FadeOut.duration(140)}
-                layout={Layout.springify().damping(16)}
-                style={styles.cardSlot}
-              >
-                <Pressable
-                  onPress={() => onRemoveCard(c.id)}
-                  onLongPress={() => c.isWild && onAssignWild(c.id)}
-                >
-                  <LetterCard
-                    card={{
-                      ...c,
-                      assignedLetter: c.isWild ? wildAssignments[c.id] : c.assignedLetter,
-                    }}
-                    variant="hand"
-                  />
-                  {c.isWild && (
-                    <Pressable
-                      onPress={() => onAssignWild(c.id)}
-                      style={styles.wildEditBtn}
-                    >
-                      <Text style={styles.wildEditText}>
-                        {wildAssignments[c.id] ? 'Change' : 'Set letter'}
-                      </Text>
-                    </Pressable>
-                  )}
-                </Pressable>
-              </Animated.View>
-            ))
-          )}
-
-          {/* If extending before, show target word on the right */}
-          {mode.kind === 'extend-before' && targetWord && (
-            <View style={styles.targetBlock}>
-              <View style={styles.divider} />
-              {targetWord.cards.map((c) => (
-                <View key={`t-${c.id}`} style={styles.ghostSlot}>
-                  <LetterCard card={c} variant="board" />
+              {stagedCards.length === 0 ? (
+                <View style={styles.placeholder}>
+                  <Text style={[typography.body, { color: colors.inkGhost }]}>—</Text>
                 </View>
-              ))}
-            </View>
-          )}
-        </ScrollView>
-      </View>
+              ) : (
+                stagedCards.map((c) => (
+                  <Animated.View
+                    key={c.id}
+                    layout={Layout.springify().damping(16)}
+                    style={styles.cardSlot}
+                  >
+                    <Animated.View entering={FadeIn.duration(180)} exiting={FadeOut.duration(140)}>
+                      <Pressable
+                        onPress={() => onRemoveCard(c.id)}
+                        onLongPress={() => c.isWild && onAssignWild(c.id)}
+                      >
+                        <LetterCard
+                          card={{
+                            ...c,
+                            assignedLetter: c.isWild ? wildAssignments[c.id] : c.assignedLetter,
+                          }}
+                          variant="hand"
+                        />
+                        {c.isWild && (
+                          <Pressable
+                            onPress={() => onAssignWild(c.id)}
+                            style={styles.wildEditBtn}
+                          >
+                            <Text style={styles.wildEditText}>
+                              {wildAssignments[c.id] ? 'Change' : 'Set letter'}
+                            </Text>
+                          </Pressable>
+                        )}
+                      </Pressable>
+                    </Animated.View>
+                  </Animated.View>
+                ))
+              )}
 
-      <View style={styles.previewRow}>
-        <Text style={[typography.overline, { color: colors.inkMuted }]}>Word</Text>
-        <Text
-          style={[
-            typography.h2,
-            styles.previewText,
-            { color: preview.length >= 2 ? colors.ink : colors.inkGhost },
-          ]}
-          numberOfLines={1}
-        >
-          {preview || '—'}
-        </Text>
-      </View>
+              {/* If extending before, show target word on the right */}
+              {mode.kind === 'extend-before' && targetWord && (
+                <View style={styles.targetBlock}>
+                  <View style={styles.divider} />
+                  {targetWord.cards.map((c) => (
+                    <View key={`t-${c.id}`} style={styles.ghostSlot}>
+                      <LetterCard card={c} variant="board" />
+                    </View>
+                  ))}
+                </View>
+              )}
+            </ScrollView>
+          </View>
+
+          <View style={styles.previewRow}>
+            <Text style={[typography.overline, { color: colors.inkMuted }]}>Word</Text>
+            <Text
+              style={[
+                typography.h2,
+                styles.previewText,
+                { color: preview.length >= 1 ? colors.ink : colors.inkGhost },
+              ]}
+              numberOfLines={1}
+            >
+              {preview || '—'}
+            </Text>
+          </View>
+        </>
+      )}
     </View>
   );
 };

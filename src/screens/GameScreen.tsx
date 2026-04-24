@@ -127,7 +127,7 @@ export const GameScreen: React.FC = () => {
   // ---- Action handlers ----
 
   const handlePlayNewWord = () => {
-    if (stagedCards.length < 2) {
+    if (stagedCards.length < 1) {
       haptic('warning');
       return;
     }
@@ -181,15 +181,14 @@ export const GameScreen: React.FC = () => {
 
   // ---- Derived UI state ----
 
-  const canPlayNew = stagedCards.length >= 2 && (builderMode.kind === 'new-word' || !selectedWordId);
+  const canPlayNew = stagedCards.length >= 1 && (builderMode.kind === 'new-word' || !selectedWordId);
   const canExtend = selectedWordId !== null && stagedIds.length > 0;
 
-  const otherPlayers = game.players.filter((p) => p.id !== currentPlayer.id);
   const topDiscard = game.discard.length > 0 ? game.discard[game.discard.length - 1] : null;
 
   return (
     <SafeAreaView style={styles.safe}>
-      {/* Top bar — opponents shown compactly */}
+      {/* Top bar */}
       <View style={styles.topBar}>
         <Pressable onPress={handleQuitGame} hitSlop={12}>
           <Text style={[typography.small, { color: colors.inkMuted }]}>← Exit</Text>
@@ -204,13 +203,13 @@ export const GameScreen: React.FC = () => {
         />
       </View>
 
-      {/* Opponent bars */}
-      <View style={styles.opponents}>
-        {otherPlayers.map((p) => (
-          <View key={p.id} style={{ marginBottom: spacing.sm }}>
+      {/* All players — compact strip */}
+      <View style={styles.players}>
+        {game.players.map((p) => (
+          <View key={p.id} style={styles.playerBarWrap}>
             <PlayerBar
               player={p}
-              active={false}
+              active={p.id === currentPlayer.id}
               cardsInHand={p.hand.length}
               compact
             />
@@ -224,15 +223,6 @@ export const GameScreen: React.FC = () => {
           words={game.board}
           selectedWordId={selectedWordId}
           onSelectWord={onSelectWord}
-        />
-      </View>
-
-      {/* Current player bar */}
-      <View style={styles.currentPlayer}>
-        <PlayerBar
-          player={currentPlayer}
-          active
-          cardsInHand={currentPlayer.hand.length}
         />
       </View>
 
@@ -343,16 +333,18 @@ const styles = StyleSheet.create({
     paddingTop: spacing.sm,
     paddingBottom: spacing.sm,
   },
-  opponents: {
+  players: {
+    flexDirection: 'row',
     paddingHorizontal: spacing.base,
+    paddingBottom: spacing.sm,
+    gap: spacing.xs,
+  },
+  playerBarWrap: {
+    flex: 1,
   },
   boardWrap: {
     flex: 1,
-    minHeight: 120,
-  },
-  currentPlayer: {
-    paddingHorizontal: spacing.base,
-    paddingBottom: spacing.sm,
+    minHeight: 100,
   },
   actionRow: {
     flexDirection: 'row',

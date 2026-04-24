@@ -171,8 +171,8 @@ function actPlayWord(
 ): ActionResult {
   const player = currentPlayer(state);
 
-  if (cardIds.length < 2) {
-    return { ok: false, error: 'A word must have at least 2 letters.' };
+  if (cardIds.length < 1) {
+    return { ok: false, error: 'Select at least one card to play a word.' };
   }
 
   const removed = removeCardsFromHand(player.hand, cardIds);

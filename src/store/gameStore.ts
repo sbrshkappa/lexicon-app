@@ -7,7 +7,7 @@ import {
   startNextRound,
 } from '../game';
 
-type Screen = 'home' | 'setup' | 'game' | 'round-end' | 'game-end';
+type Screen = 'home' | 'setup' | 'game' | 'round-end' | 'game-end' | 'how-to-play';
 
 interface ToastMsg {
   id: number;

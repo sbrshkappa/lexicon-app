@@ -44,23 +44,23 @@ export const PlayerBar: React.FC<PlayerBarProps> = ({
   return (
     <Animated.View style={[styles.container, compact && styles.compact, containerStyle]}>
       <View style={styles.left}>
-        <View style={styles.avatar}>
-          <Text style={[typography.h3, { color: active ? colors.paper : colors.ink }]}>
+        <View style={[styles.avatar, compact && styles.avatarCompact]}>
+          <Text style={[compact ? typography.body : typography.h3, { color: active ? colors.paper : colors.ink, fontWeight: '700' }]}>
             {player.name.charAt(0).toUpperCase()}
           </Text>
         </View>
-        <View style={{ marginLeft: spacing.md }}>
-          <Animated.Text style={[typography.h3, nameStyle]} numberOfLines={1}>
+        <View style={{ marginLeft: compact ? spacing.sm : spacing.md, flex: 1 }}>
+          <Animated.Text style={[compact ? typography.body : typography.h3, nameStyle, { fontWeight: '600' }]} numberOfLines={1}>
             {player.name}
           </Animated.Text>
           <Animated.Text style={[typography.small, subStyle]}>
-            {cardsInHand} {cardsInHand === 1 ? 'card' : 'cards'} in hand
+            {cardsInHand} {cardsInHand === 1 ? 'card' : 'cards'}
           </Animated.Text>
         </View>
       </View>
       <View style={styles.right}>
-        <Animated.Text style={[typography.overline, subStyle]}>Penalty</Animated.Text>
-        <Animated.Text style={[typography.h2, nameStyle]}>{player.score}</Animated.Text>
+        <Animated.Text style={[typography.overline, subStyle]}>pts</Animated.Text>
+        <Animated.Text style={[compact ? typography.body : typography.h2, nameStyle, { fontWeight: '700' }]}>{player.score}</Animated.Text>
       </View>
     </Animated.View>
   );
@@ -79,6 +79,10 @@ const styles = StyleSheet.create({
   compact: {
     paddingVertical: spacing.sm,
     paddingHorizontal: spacing.md,
+  },
+  avatarCompact: {
+    width: 32,
+    height: 32,
   },
   left: {
     flexDirection: 'row',

@@ -53,7 +53,7 @@ export const HomeScreen: React.FC = () => {
               variant="ghost"
               size="md"
               fullWidth
-              onPress={() => navigate('setup')}
+              onPress={() => navigate('how-to-play')}
             />
           </Animated.View>
         </View>
@@ -98,9 +98,9 @@ const styles = StyleSheet.create({
   wordmark: {
     ...typography.display,
     color: colors.ink,
-    fontSize: 92,
-    lineHeight: 96,
-    letterSpacing: -3,
+    fontSize: 72,
+    lineHeight: 80,
+    letterSpacing: -2,
     textAlign: 'center',
   },
   subtitle: {

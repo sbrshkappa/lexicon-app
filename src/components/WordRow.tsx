@@ -34,19 +34,20 @@ export const WordRow: React.FC<WordRowProps> = ({ word, selected = false, onPres
 
   return (
     <Animated.View
-      entering={FadeIn.duration(260)}
       layout={Layout.springify().damping(16).stiffness(180)}
       style={styles.outer}
     >
-      <Pressable disabled={!onPress} onPress={onPress}>
-        <Animated.View style={[styles.row, wrapStyle]}>
-          {word.cards.map((c, i) => (
-            <View key={c.id} style={styles.cardSlot}>
-              <LetterCard card={c} variant="board" enterDelay={i * 30} />
-            </View>
-          ))}
-        </Animated.View>
-      </Pressable>
+      <Animated.View entering={FadeIn.duration(260)}>
+        <Pressable disabled={!onPress} onPress={onPress}>
+          <Animated.View style={[styles.row, wrapStyle]}>
+            {word.cards.map((c, i) => (
+              <View key={c.id} style={styles.cardSlot}>
+                <LetterCard card={c} variant="board" enterDelay={i * 30} />
+              </View>
+            ))}
+          </Animated.View>
+        </Pressable>
+      </Animated.View>
     </Animated.View>
   );
 };
