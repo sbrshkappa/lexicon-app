@@ -47,7 +47,7 @@ export const LetterCard: React.FC<LetterCardProps> = ({
   }, [selected, selectedAnim]);
 
   const animatedStyle = useAnimatedStyle(() => {
-    const lift = interpolate(selectedAnim.value, [0, 1], [0, -18]);
+    const lift = interpolate(selectedAnim.value, [0, 1], [0, -24]);
     const scale = interpolate(
       pressed.value,
       [0, 1],

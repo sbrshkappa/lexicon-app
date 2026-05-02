@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, useWindowDimensions } from 'react-native';
 import { Card } from '../game/types';
 import { LetterCard } from './LetterCard';
 import { spacing, cardSize } from '../theme';
@@ -11,14 +11,28 @@ export interface HandProps {
   onCardPress: (id: string) => void;
 }
 
-// How many px each card peeks out from behind the next
-const OVERLAP = 30;
+// Must match the lift amount in LetterCard
+const LIFT = 24;
+const MIN_STEP = 28;
+const MAX_STEP = 44;
 
 export const Hand: React.FC<HandProps> = ({ cards, selectedIds, disabled, onCardPress }) => {
+  const { width: screenWidth } = useWindowDimensions();
+
   if (cards.length === 0) return null;
 
+  // How many px each card's left edge is offset from the previous card.
+  // Scales down automatically for large hands or narrow screens.
+  const step =
+    cards.length <= 1
+      ? cardSize.width
+      : Math.min(
+          MAX_STEP,
+          Math.max(MIN_STEP, Math.floor((screenWidth - 32 - cardSize.width) / (cards.length - 1))),
+        );
+
   const containerWidth =
-    cards.length === 1 ? cardSize.width : (cards.length - 1) * OVERLAP + cardSize.width;
+    cards.length === 1 ? cardSize.width : (cards.length - 1) * step + cardSize.width;
 
   return (
     <View style={styles.outer}>
@@ -31,9 +45,12 @@ export const Hand: React.FC<HandProps> = ({ cards, selectedIds, disabled, onCard
               style={[
                 styles.cardWrapper,
                 {
-                  left: idx * OVERLAP,
-                  // Selected cards float above all others
-                  zIndex: isSelected ? cards.length + 10 : idx,
+                  left: idx * step,
+                  // Natural fan stacking: higher index = on top.
+                  // No boost for selected cards — the selected card's visible strip
+                  // (its left `step` px) is always accessible because its right
+                  // neighbor (higher zIndex) wins only the hidden overlap area.
+                  zIndex: idx,
                 },
               ]}
             >
@@ -60,11 +77,10 @@ const styles = StyleSheet.create({
   },
   fan: {
     position: 'relative',
-    // cardSize.height + 20px headroom for the -18px selection lift
-    height: cardSize.height + 20,
+    height: cardSize.height + LIFT + 4,
   },
   cardWrapper: {
     position: 'absolute',
-    top: 18, // leave space above for selection lift
+    top: LIFT,
   },
 });
