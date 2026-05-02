@@ -1,12 +1,12 @@
 {
   "expo": {
-    "name": "Lexicon",
-    "slug": "lexicon",
+    "name": "Lexo",
+    "slug": "lexo",
     "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
-    "scheme": "lexicon",
+    "scheme": "lexo",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -14,10 +14,10 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.example.lexicon"
+      "bundleIdentifier": "com.example.lexo"
     },
     "android": {
-      "package": "com.example.lexicon",
+      "package": "com.example.lexo",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FAF7F2"

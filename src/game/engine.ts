@@ -39,7 +39,7 @@ export function makePlayer(id: string, name: string): Player {
  */
 export function createGame(playerNames: string[]): GameState {
   if (playerNames.length < 2 || playerNames.length > 4) {
-    throw new Error('Lexicon supports 2-4 players with a single deck.');
+    throw new Error('Lexo supports 2-4 players with a single deck.');
   }
 
   const players: Player[] = playerNames.map((name, i) =>

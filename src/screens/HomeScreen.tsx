@@ -24,7 +24,7 @@ export const HomeScreen: React.FC = () => {
             entering={FadeInDown.delay(140).duration(700).springify()}
             style={styles.wordmark}
           >
-            Lexicon
+            Lexo
           </Animated.Text>
 
           <Animated.Text

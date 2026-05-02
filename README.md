@@ -1,4 +1,4 @@
-# Lexicon
+# Lexo
 
 A pass-and-play implementation of **Lexicon** (David Whitelaw, 1932) in React Native + Expo. One codebase, runs on iOS, Android, and the web.
 
